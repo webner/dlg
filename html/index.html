@@ -25,6 +25,7 @@
         $(function () {
             var handle = $("#custom-handle");
             $("#slider").slider({
+                max: 500,
                 create: function () {
                     handle.text($(this).slider("value"));
                 },

@@ -74,7 +74,7 @@ func init() {
 	prometheus.MustRegister(requestsPerSecondTarget)
 	prometheus.MustRegister(requestCodes)
 
-	flag.StringVar(&config.Url, "targetUrl", "http://pi-digits.aws-k8s.catalysts.cc/?digits=15000", "The url that should be load tested.")
+	flag.StringVar(&config.Url, "targetUrl", "https://www.google.com", "The url that should be load tested.")
 	flag.IntVar(&config.Clients, "clients", 1, "Number of simulated clients.")
 	flag.IntVar(&config.RequestsPerSecondTarget, "rps", 1, "Total number of requests per seconds the clients should try to make")
 }
