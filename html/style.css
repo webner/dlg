@@ -1,0 +1,28 @@
+body {
+  background-color: white;
+}
+
+.logo {
+  float: left;
+}
+
+.caption {
+  padding-top: 90px;
+  margin-bottom: 50px;
+}
+
+.content {
+  margin: 50px;
+}
+
+input {
+  font-size: large;
+}
+
+#targetUrl {
+  width: 700px;
+}
+
+#slider {
+  width: 700px;
+}

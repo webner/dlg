@@ -1,0 +1,59 @@
+{
+	"ImportPath": "catalysts.cc/conqar/dlg",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/beorn7/perks/quantile",
+			"Rev": "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
+		},
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "8ee79997227bf9b34611aee7946ae64735e6fd93"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "1c83b3eabd45b6d76072b66b746c20815fb2872d"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "49c024275504f0341e5a9971eb7ba7fa3dc7af40"
+		},
+		{
+			"ImportPath": "github.com/matttproud/golang_protobuf_extensions/pbutil",
+			"Comment": "v1.0.0-2-gc12348c",
+			"Rev": "c12348ce28de40eed0136aa2b644d0ee0650e56c"
+		},
+		{
+			"ImportPath": "github.com/prometheus/client_golang/prometheus",
+			"Comment": "v0.8.0-46-gc317fb7",
+			"Rev": "c317fb74746eac4fc65fe3909195f4cf67c5562a"
+		},
+		{
+			"ImportPath": "github.com/prometheus/client_golang/prometheus/promhttp",
+			"Comment": "v0.8.0-46-gc317fb7",
+			"Rev": "c317fb74746eac4fc65fe3909195f4cf67c5562a"
+		},
+		{
+			"ImportPath": "github.com/prometheus/client_model/go",
+			"Comment": "model-0.0.2-12-gfa8ad6f",
+			"Rev": "fa8ad6fec33561be4280a8f0514318c79d7f6cb6"
+		},
+		{
+			"ImportPath": "github.com/prometheus/common/expfmt",
+			"Rev": "dd2f054febf4a6c00f2343686efb775948a8bff4"
+		},
+		{
+			"ImportPath": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg",
+			"Rev": "dd2f054febf4a6c00f2343686efb775948a8bff4"
+		},
+		{
+			"ImportPath": "github.com/prometheus/common/model",
+			"Rev": "dd2f054febf4a6c00f2343686efb775948a8bff4"
+		},
+		{
+			"ImportPath": "github.com/prometheus/procfs",
+			"Rev": "1878d9fbb537119d24b21ca07effd591627cd160"
+		}
+	]
+}

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Load Tester</title>
+    <link rel="stylesheet" href="vendor/jquery-ui.min.css">
+    <link rel="stylesheet" href="vendor/morris.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #custom-handle {
+            width: 3em;
+            height: 1.6em;
+            top: 50%;
+            margin-top: -.8em;
+            text-align: center;
+            line-height: 1.6em;
+        }
+    </style>
+    <script src="vendor/jquery-1.12.0.min.js"></script>
+    <script src="vendor/raphael-min.js"></script>
+    <script src="vendor/jquery-ui.min.js"></script>
+    <script src="vendor/morris.min.js"></script>
+    <script>
+        $(function () {
+            var handle = $("#custom-handle");
+            $("#slider").slider({
+                create: function () {
+                    handle.text($(this).slider("value"));
+                },
+                slide: function (event, ui) {
+                    handle.text(ui.value);
+
+                    $.ajax({
+                        url: '/api/config',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            Url: $("#targetUrl").val(),
+                            Clients: ui.value,
+                            RequestsPerSecondTarget: ui.value
+                        }),
+                        dataType: 'json',
+                        error: function (request, error) {
+                            alert("Request: " + JSON.stringify(request));
+                        }
+                    });
+
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="content">
+    <img class="logo" src="catalysts_c.png"></img>
+    <h1 class="caption">Load Tester</h1>
+
+    <h2>Target URL</h2>
+    <input id="targetUrl"></input>
+
+    <h2>Requests per second</h2>
+    <div id="slider">
+        <div id="custom-handle" class="ui-slider-handle"></div>
+    </div>
+</div>
+
+<div id="responseTime" style="height: 250px;"></div>
+
+<script>
+    data = []
+    value = 100
+    morris = new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'responseTime',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: [],
+        // The name of the data record attribute that contains x-values.
+        xkey: 'time',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['res_05', 'res_09'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['responseTime 0.5', 'responseTime 0.9'],
+
+        ymax: 2000
+    });
+
+    function updateGraph() {
+        $.ajax({
+            url: '/metrics',
+            type: 'GET',
+            success: function (result, error) {
+                var values = result.split('\n');
+                var res_05 = 0.0;
+                var res_09 = 0.0;
+                var res_099 = 0.0;
+
+                for (var i = 0; i < values.length; i++) {
+                    entry = values[i].split(' ');
+                    key = entry[0]
+                    value = entry[1]
+
+                    if (key == "requestDuration{quantile=\"0.5\"}") {
+                        res_05 = parseInt((value * 1000), 10);
+                    } else if (key == "requestDuration{quantile=\"0.9\"}") {
+                        res_09 = parseInt((value * 1000), 10);
+                    } else if (key == "requestDuration{quantile=\"0.99\"}") {
+                        res_099 = parseInt((value * 1000), 10);
+                    }
+                }
+
+                data.push({time: Date.now(), res_05: res_05, res_09: res_09});
+                value++;
+                if (data.length > 10) {
+                    data = data.slice(1, data.length)
+                }
+                morris.setData(data);
+            }
+        });
+
+    }
+
+    $.ajax({
+        url: '/api/config',
+        dataType: 'json',
+        success: function (data, error) {
+            $("#slider").slider("value", data.RequestsPerSecondTarget);
+            $("#custom-handle").text(data.RequestsPerSecondTarget);
+            $("#targetUrl").val(data.Url);
+        }
+    });
+    setInterval(updateGraph, 1000);
+</script>
+
+</body>
+</html>
